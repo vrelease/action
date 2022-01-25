@@ -21,7 +21,7 @@
     "vrelease"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && ncc build --source-map --license licenses.txt",
     "bump:dev": "ncu --upgrade --dep dev --target minor",
     "bump:prod": "ncu --upgrade --dep prod --target minor",
     "bump:all": "npm run bump:dev && npm run bump:prod",
@@ -29,7 +29,6 @@
     "check:style": "standardx",
     "check:all": "npm run check:lint && npm run check:style",
     "fix:style": "prettier --no-semi --print-width 100 --single-quote --trailing-comma none --write 'src/**/*.ts' && standardx --fix 'src/**/*.ts'",
-    "package": "ncc build --minify --source-map --license licenses.txt",
     "test": "jest --verbose --collect-coverage"
   },
   "standardx": {
