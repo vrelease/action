@@ -21,6 +21,7 @@
     "vrelease"
   ],
   "scripts": {
+    "all": "npm run check:all && npm run fix:style && npm run build && npm test",
     "build": "tsc && ncc build --source-map --license licenses.txt",
     "bump:dev": "ncu --upgrade --dep dev --target minor",
     "bump:prod": "ncu --upgrade --dep prod --target minor",
