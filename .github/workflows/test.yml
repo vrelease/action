@@ -1,5 +1,5 @@
 name: 'build-test'
-on: # rebuild any PRs and main branch changes
+on:
   pull_request:
   push:
     branches:
@@ -10,11 +10,35 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          npm install
-      - run: |
-          npm run all
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.13'
+
+      - name: Cache Node modules
+        id: test-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ env.preffix }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ env.preffix }}-build-${{ env.cache-name }}-
+            ${{ env.preffix }}-build-
+            ${{ env.preffix }}-
+        env:
+          cache-name: test-cache-node-modules
+          preffix: test-${{ runner.os }}-node-${{ matrix.nodejs-version }}
+
+      - name: Install dependencies
+        if: steps.test-cache.outputs.cache-hit != 'true'
+        run: npm i
+
+      - name: Run all scripts
+        run: npm run all
+
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:

@@ -3,6 +3,7 @@
 # `index.js` is the code that will run.
 # For our project, we generate this file through a build process from other source files.
 # We need to make sure the checked-in `index.js` actually matches what we expect it to be.
+
 name: Check dist/
 
 on:
@@ -21,20 +22,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set Node.js 12.x
-        uses: actions/setup-node@v2.5.1
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
         with:
-          node-version: 12.x
+          node-version: '16.13'
+
+      - name: Cache Node modules
+        id: check-dist-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ env.preffix }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ env.preffix }}-build-${{ env.cache-name }}-
+            ${{ env.preffix }}-build-
+            ${{ env.preffix }}-
+        env:
+          cache-name: check-dist-cache-node-modules
+          preffix: check-dist-${{ runner.os }}-node-${{ matrix.nodejs-version }}
 
       - name: Install dependencies
-        run: npm ci
+        if: steps.check-dist-cache.outputs.cache-hit != 'true'
+        run: npm i
 
       - name: Rebuild the dist/ directory
-        run: |
-          npm run build
-          npm run package
+        run: npm run build
 
       - name: Compare the expected and actual dist/ directories
         run: |
