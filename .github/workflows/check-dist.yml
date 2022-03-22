@@ -32,7 +32,7 @@ jobs:
 
       - name: Cache Node modules
         id: check-dist-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ env.preffix }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
