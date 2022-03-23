@@ -1,21 +1,14 @@
-# `dist/index.js` is a special file in Actions.
-# When you reference an action with `uses:` in a workflow,
-# `index.js` is the code that will run.
-# For our project, we generate this file through a build process from other source files.
-# We need to make sure the checked-in `index.js` actually matches what we expect it to be.
-
 name: Check dist/
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - '**.md'
-  pull_request:
-    paths-ignore:
-      - '**.md'
   workflow_dispatch:
+
+  push:
+    branches: '*'
+    paths-ignore: '**.md'
+
+  pull_request:
+    paths-ignore: '**.md'
 
 jobs:
   check-dist:
@@ -25,31 +18,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.0
+        with:
+          version: 6.32.x
+
       - name: Setup NodeJS
         uses: actions/setup-node@v2
         with:
-          node-version: '16.13'
+          node-version: 16.x
 
-      - name: Cache Node modules
-        id: check-dist-cache
+      - name: Cache pnpm store
+        id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ env.preffix }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            ./node_modules
+            ~/.pnpm-store
+          key: ${{ env.preffix }}-cache-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ env.preffix }}-build-${{ env.cache-name }}-
-            ${{ env.preffix }}-build-
+            ${{ env.preffix }}-cache-
             ${{ env.preffix }}-
         env:
-          cache-name: check-dist-cache-node-modules
-          preffix: check-dist-${{ runner.os }}-node-${{ matrix.nodejs-version }}
+          preffix: code-check
 
       - name: Install dependencies
-        if: steps.check-dist-cache.outputs.cache-hit != 'true'
-        run: npm i
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: pnpm i
 
       - name: Rebuild the dist/ directory
-        run: npm run build
+        run: pnpm run build
 
       - name: Compare the expected and actual dist/ directories
         run: |
