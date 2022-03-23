@@ -2,7 +2,7 @@
   "name": "vrelease-action",
   "version": "0.1.0",
   "description": "vrelease action for github",
-  "main": "lib/main.js",
+  "main": "lib/src/main.js",
   "private": true,
   "author": "Caian Ertl <hi@caian.org>",
   "license": "CC0-1.0",
