@@ -14,6 +14,7 @@ specifiers:
   eslint: ^8.11.0
   eslint-config-standard-jsx: ^10.0.0
   eslint-config-standard-with-typescript: ^21.0.1
+  eslint-formatter-codeframe: ^7.32.1
   eslint-plugin-import: ^2.25.4
   eslint-plugin-jest: ^26.1.2
   eslint-plugin-node: ^11.1.0
@@ -48,6 +49,7 @@ devDependencies:
   eslint: 8.11.0
   eslint-config-standard-jsx: 10.0.0_897aad1d4b1adb474b5ea225425a12c3
   eslint-config-standard-with-typescript: 21.0.1_315c78f51e15e2bcdd46c27787a90888
+  eslint-formatter-codeframe: 7.32.1
   eslint-plugin-import: 2.25.4_eslint@8.11.0
   eslint-plugin-jest: 26.1.2_37483eea03cb2a5bbfbe402e58f1b05b
   eslint-plugin-node: 11.1.0_eslint@8.11.0
@@ -85,6 +87,12 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.4
+    dev: true
+
+  /@babel/code-frame/7.12.11:
+    resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
+    dependencies:
+      '@babel/highlight': 7.16.10
     dev: true
 
   /@babel/code-frame/7.16.7:
@@ -2586,6 +2594,14 @@ packages:
       eslint-plugin-import: 2.25.4_eslint@8.11.0
       eslint-plugin-node: 11.1.0_eslint@8.11.0
       eslint-plugin-promise: 6.0.0_eslint@8.11.0
+    dev: true
+
+  /eslint-formatter-codeframe/7.32.1:
+    resolution: {integrity: sha512-DK/3Q3+zVKq/7PdSYiCxPrsDF8H/TRMK5n8Hziwr4IMkMy+XiKSwbpj25AdajS63I/B61Snetq4uVvX9fOLyAg==}
+    engines: {node: ^10.12.0 || >=12.0.0}
+    dependencies:
+      '@babel/code-frame': 7.12.11
+      chalk: 4.1.2
     dev: true
 
   /eslint-import-resolver-node/0.3.6:

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./lib",
     "strict": true,
     "alwaysStrict": true,
@@ -13,11 +13,5 @@
     "resolveJsonModule": true,
     "pretty": true,
     "declaration": true
-  },
-  "exclude": [
-    "node_modules",
-    "lib",
-    "dist",
-    "tests"
-  ]
+  }
 }
