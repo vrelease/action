@@ -108,7 +108,7 @@
     "jest": "^27.5.1",
     "lint-staged": "^12.3.7",
     "nodemon": "^2.0.15",
-    "npm-check-updates": "^12.5.9",
+    "npm-check-updates": "^16.0.5",
     "prettier": "^2.6.2",
     "standardx": "^7.0.0",
     "ts-jest": "^27.1.4",
